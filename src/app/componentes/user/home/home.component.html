@@ -1,0 +1,81 @@
+<nav class="navbar bg-body-tertiary">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a class="navbar-brand" href="#">InnovaTube Sistem®</a>
+  
+      <div class="text-end">
+        <p class="mb-0">Bienvenido <b>{{ nombreUsuario }}</b></p>
+        <button class="btn btn-danger btn-sm" (click)="cerrarSesion()">Cerrar Sesión</button>
+      </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="accordion accordion-flush" id="opcionesAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Buscar Videos
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#opcionesAccordion">
+            <div class="accordion-body">
+                <div *ngIf="misVideos.length > 0" id="contendorVideos">
+                    <h2>Lista de Videos</h2>
+            
+                    <!-- Campo de búsqueda -->
+                    <input type="text" class="form-control mb-3" placeholder="Buscar por título"  name="filtroTitulo"
+                    [(ngModel)]="filtroTitulo" (input)="buscarVideos(filtroTitulo)">
+                  
+                    <div class="row">
+                      <div class="col-md-3 mb-1" *ngFor="let video of misVideos">
+                        <div class="card" style="height: 350px;">
+                            <button class="btn btn-primary card-header" (click)="agregarFavorito(video)">Agregar a Favoritos</button>
+                          <img [src]="video.snippet.thumbnails.default.url" alt="Miniatura del video" class="card-img-top" height="200px">
+                          <div class="card-body">
+                            <b class="card-title">{{ video.snippet.title }}</b>
+                          </div>
+                        </div>
+                      </div>
+                    </div>      
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              Ver Favoritos
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Lista de Favoritos</h3>
+                    <button class="btn btn-danger" (click)="limpiarFavoritos()">Limpiar Favoritos</button>
+                </div>
+                <!-- Mostrar favoritos -->
+                <div *ngIf="favoritos.length > 0" id="contenedorVideos">
+                    
+                    <div class="row">
+                    <div class="col-md-3 mb-3" *ngFor="let favorito of favoritos">
+                        <div class="card" style="width: 18rem;">
+                        <button class="btn btn-primary card-header" (click)="eliminarVideoFavoritos(favorito.id)">Eliminar de Favoritos</button>
+                        <img [src]="favorito.snippet.thumbnails.default.url" alt="Miniatura del video" class="card-img-top">
+                        <div class="card-body">
+                            <b class="card-title">{{ favorito.snippet.title }}</b>
+                            <!-- <button class="btn btn-danger" (click)="limpiarFavoritos()">Limpiar Favoritos</button> -->
+                        </div>
+                        </div>
+                    </div>
+                    </div>      
+                </div>
+                <div *ngIf="favoritos.length <= 0" id="contenedorVideos">
+                    <p class="text">No existen favoritos</p>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
